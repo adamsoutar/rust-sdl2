@@ -352,7 +352,11 @@ impl Drop for EventPump {
 #[inline]
 #[doc(alias = "SDL_GetPlatform")]
 pub fn get_platform() -> &'static str {
-    unsafe { CStr::from_ptr(sys::SDL_GetPlatform()).to_str().unwrap() }
+    unsafe {
+        CStr::from_ptr(sys::SDL_GetPlatform() as *const _)
+            .to_str()
+            .unwrap()
+    }
 }
 
 /// Initializes the SDL library.
@@ -378,7 +382,7 @@ pub fn init() -> Result<Sdl, String> {
 pub fn get_error() -> String {
     unsafe {
         let err = sys::SDL_GetError();
-        CStr::from_ptr(err).to_str().unwrap().to_owned()
+        CStr::from_ptr(err as *const _).to_str().unwrap().to_owned()
     }
 }
 

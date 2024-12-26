@@ -1,10 +1,11 @@
 // 0 should not be used in bitflags, but here it is. Removing it will break existing code.
 #![allow(clippy::bad_bit_mask)]
 
+use libc::c_char;
 use std::error;
 use std::ffi::{CString, NulError};
 use std::fmt;
-use std::os::raw::{c_char, c_int};
+use std::os::raw::c_int;
 use std::ptr;
 
 use crate::get_error;
@@ -227,7 +228,7 @@ where
         .map(|(b, b_text)| sys::SDL_MessageBoxButtonData {
             flags: b.flags.bits(),
             buttonid: b.button_id as c_int,
-            text: b_text.as_ptr(),
+            text: b_text.as_ptr() as *const c_char,
         })
         .collect();
     let result = unsafe {

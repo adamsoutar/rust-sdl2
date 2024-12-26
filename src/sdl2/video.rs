@@ -1419,7 +1419,7 @@ impl Window {
         }
         Ok(names
             .iter()
-            .map(|&val| unsafe { CStr::from_ptr(val) }.to_str().unwrap())
+            .map(|&val| unsafe { CStr::from_ptr(val as *const _) }.to_str().unwrap())
             .collect())
     }
 

@@ -60,7 +60,7 @@ pub fn open_url(url: &str) -> Result<(), OpenUrlError> {
             Ok(s) => s,
             Err(err) => return Err(InvalidUrl(err)),
         };
-        sys::SDL_OpenURL(url.as_ptr())
+        sys::SDL_OpenURL(url.as_ptr() as *const _)
     } == 0;
 
     if result {
